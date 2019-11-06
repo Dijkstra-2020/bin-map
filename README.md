@@ -1,0 +1,2 @@
+# bin-map
+Poubelle Connectée
