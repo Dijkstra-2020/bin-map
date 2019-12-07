@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 
- var url = "http://" + window.location.hostname;
-
+const url = "http://" + window.location.hostname;
 
 class App extends Component {
 
@@ -30,18 +30,34 @@ class App extends Component {
   }
 
   render() {
-    return (
+      const mapStyles = {
+          width: '100%',
+          height: '100%',
+      };
+
+      return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo"/>
-          <h1 className="App-title">Welcome to React
-</h1>
-        </header>
-        <p className="App-intro">{this.state.apiResponse}</p>
-        <p className="App-intro">{this.state.dbResponse}</p>
+          <h1>BinMap</h1>
+          <div className="Map">
+	    <Map
+            google={this.props.google}
+            zoom={10}
+            initialCenter={{
+                lat: 35.5496939,
+                lng: -120.7060049
+            }}
+            style={mapStyles}
+        />
+          </div>
+          <p className="App-intro">{this.state.apiResponse}</p>
+          <p className="App-intro">{this.state.dbResponse}</p>
       </div>
-    )
+    );
   }
 }
 
-export default App;
+
+
+export default GoogleApiWrapper({
+  apiKey: ("AIzaSyBn2fjl7XeGM2AwJUELskaplk_wL6hm1yY")
+})(App)

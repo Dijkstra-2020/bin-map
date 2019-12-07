@@ -7,6 +7,7 @@ COPY package*.json /client/
 ENV CHOKIDAR_USEPOLLING=true
 # install dependencies
 RUN npm install
+RUN npm install --save google-maps-react
 # Copy the current directory contents into the container at /client
 COPY . /client/
 # Make port 3000 available to the world outside this container
