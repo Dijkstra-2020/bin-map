@@ -2,8 +2,13 @@ import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
+import SelectSearch from 'react-select-search'
 
 const url = "http://" + window.location.hostname;
+const options = [
+    {name: 'Poubelle 1', value: '1'},
+    {name: 'Poubelle 2', value: '2'},
+];
 
 class App extends Component {
 
@@ -30,14 +35,10 @@ class App extends Component {
   }
 
   render() {
-      const mapStyles = {
-          width: '100%',
-          height: '100%',
-      };
-
       return (
       <div className="App">
           <h1>BinMap</h1>
+          <SelectSearch options={options} name="bin" placeholder="Selectionner une poubelle" />
           <div className="Map">
 	    <Map
             google={this.props.google}
@@ -46,7 +47,6 @@ class App extends Component {
                 lat: 35.5496939,
                 lng: -120.7060049
             }}
-            style={mapStyles}
         />
           </div>
           <p className="App-intro">{this.state.apiResponse}</p>
