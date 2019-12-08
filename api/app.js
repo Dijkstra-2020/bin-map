@@ -25,6 +25,8 @@ app.use('/users', usersRouter);
 app.use("/testAPI", testAPIRouter);
 var testDBRouter = require("./routes/testDB");
 app.use("/testDB", testDBRouter);
+var BinRouter = require("./routes/Bin");
+app.use("/Bin", BinRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
