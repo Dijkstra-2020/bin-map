@@ -6,7 +6,8 @@ WORKDIR /client
 COPY package*.json /client/
 ENV CHOKIDAR_USEPOLLING=true
 # install dependencies
-RUN npm install
+RUN npm install -g npm@latest
+RUN npm i --unsafe-perm
 RUN npm install --save google-maps-react
 RUN npm install react-select-search --save
 # Copy the current directory contents into the container at /client
