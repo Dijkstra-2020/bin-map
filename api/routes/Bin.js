@@ -18,7 +18,7 @@ var BinSchema = mongoose.Schema({
     name: String,
     lat: Number,
     lnt: Number,
-    lock: Boolean
+    lock: {type : Boolean, default: false}
 });
 
 // compile schema to model
@@ -38,7 +38,7 @@ Bin.insertMany(bins, function (err, docs) {
 */
 
 router.get("/", function(req, res, next) {
-    Bin.find({}, 'name', function (err, users) {
+    Bin.find({}, null, function (err, users) {
         if (err) {
             console.log(err);
         }
