@@ -5,16 +5,12 @@ import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import SelectSearch from 'react-select-search'
 
 const url = "http://" + window.location.hostname;
-const options = [
-    {name: 'Poubelle 1', value: '1'},
-    {name: 'Poubelle 2', value: '2'},
-];
 
 class App extends Component {
 
-  constructor(props) {
-    super(props);
-    this.state = { apiResponse: "", dbResponse: "" };
+  constructor() {
+    super();
+    this.state = { apiResponse: "", dbResponse: "", options: [] };
   }
   callAPI() {
     fetch(url+":9000/testAPI")
@@ -29,7 +25,24 @@ class App extends Component {
         .catch(err => err);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+      fetch(url+ ":9000/bin")
+          .then(results => {return results.json()})
+          .then(datas => {
+              datas = datas.map((bin) => {
+                  return {name: bin['name'], value: bin['_id']}
+              });
+              return datas;
+          }).then(options => {
+              this.setState({
+                  options: options
+              });
+          }).catch(error => {
+              console.log(error);
+          });
+  }
+
+    componentWillMount() {
     this.callAPI();
     this.callDB();
   }
@@ -38,7 +51,7 @@ class App extends Component {
       return (
       <div className="App">
           <h1>BinMap</h1>
-          <SelectSearch options={options} name="bin" placeholder="Selectionner une poubelle" />
+          <SelectSearch options={this.state.options} name="bin" placeholder="Selectionner une poubelle" />
           <div className="Map">
 	    <Map
             google={this.props.google}
