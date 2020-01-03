@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import SelectSearch from 'react-select-search'
@@ -8,9 +7,15 @@ const url = "http://" + window.location.hostname;
 
 class App extends Component {
 
-  constructor() {
-    super();
-    this.state = { apiResponse: "", dbResponse: "", options: [] };
+  constructor(props) {
+    super(props);
+    this.state = {
+        apiResponse: "",
+        dbResponse: "",
+        options: [],
+        pos: {lat: 48.812130, lng: 2.356810},
+        poubelles: [],
+        value: undefined };
   }
   callAPI() {
     fetch(url+":9000/testAPI")
@@ -24,6 +29,27 @@ class App extends Component {
         .then(res => this.setState({ dbResponse: res }))
         .catch(err => err);
   }
+
+  async getPosition(id) {
+      const response = await fetch(url+ ":9000/bin/position", {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(id),
+      });
+      return await response.json();
+  }
+
+  handleChange = event => {
+      const value = {'_id' : event.value};
+      const position = this.getPosition(value);
+      position.then(pos => {
+          this.setState({pos: pos});
+          console.log(this.state.pos);
+      }).catch(error => {
+          console.log(error);
+      });
+      this.setState({value: event.value});
+  };
 
   componentDidMount() {
       fetch(url+ ":9000/bin")
@@ -42,25 +68,24 @@ class App extends Component {
           });
   }
 
-    componentWillMount() {
+  componentWillMount() {
     this.callAPI();
     this.callDB();
   }
 
-  render() {
+    render() {
       return (
       <div className="App">
           <h1>BinMap</h1>
-          <SelectSearch options={this.state.options} name="bin" placeholder="Selectionner une poubelle" />
+          <SelectSearch options={this.state.options} value={this.state.value} name="bin" placeholder="Selectionner une poubelle" onChange={this.handleChange}/>
           <div className="Map">
 	    <Map
             google={this.props.google}
-            zoom={10}
-            initialCenter={{
-                lat: 35.5496939,
-                lng: -120.7060049
-            }}
-        />
+            zoom={12}
+            initialCenter={this.state.pos}
+            center={this.state.pos}
+        >
+        </Map>
           </div>
           <p className="App-intro">{this.state.apiResponse}</p>
           <p className="App-intro">{this.state.dbResponse}</p>

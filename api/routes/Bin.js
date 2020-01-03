@@ -18,7 +18,7 @@ db.once("open", () => {
 var BinSchema = mongoose.Schema({
     name: String,
     lat: Number,
-    lnt: Number,
+    lng: Number,
     lock: {type : Boolean, default: false}
 });
 
@@ -38,11 +38,11 @@ router.get("/", function(req, res, next) {
 });
 
 router.post("/position", function(req, res, next) {
-    Bin.findOne(req.body, 'lnt lat', function (err, position) {
+    Bin.findOne(req.body, { '_id': 0,'lng': 1, 'lat' : 1}, function (err, position) {
         if (err) {
             console.log(err);
         } else {
-            console.log('retrieved list of names', position);
+            console.log('retrieved position', position);
             res.send(position);
         }
     });
