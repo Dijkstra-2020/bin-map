@@ -7,7 +7,7 @@ router.get("/", function(req, res, next) {
     res.send(databaseConnection);
 });
 // Connecting to MongoDB
-mongoose.connect("mongodb://mongodb:27017/test");
+mongoose.connect("mongodb://mongodb:27017/bin");
 // If there is a connection error send an error message
 mongoose.connection.on("error", error => {
     console.log("Database connection error:", error);

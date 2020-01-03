@@ -22,20 +22,19 @@ var BinSchema = mongoose.Schema({
 
 // compile schema to model
 var Bin = db.model('Bin', BinSchema, 'binlist');
-
 /*
 // documents array
 var bins = [{ name: 'Bin1', lat: 10, lnt: 25 },
     { name: 'Bin2', lat: 10, lnt: 20 },
     { name: 'Bin3', lat: 10, lnt: 23 }];
-Bin.collection.insert(bins, function (err, docs) {
+Bin.insertMany(bins, function (err, docs) {
     if (err){
         return console.error(err);
     } else {
         console.log("Multiple documents inserted to Collection");
     }
 });
- */
+*/
 
 router.get("/", function(req, res, next) {
     Bin.find({}, 'name', function(err, users){
