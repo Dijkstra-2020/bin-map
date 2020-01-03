@@ -17,7 +17,8 @@ db.once("open", () => {
 var BinSchema = mongoose.Schema({
     name: String,
     lat: Number,
-    lnt: Number
+    lnt: Number,
+    lock: Boolean
 });
 
 // compile schema to model
@@ -37,14 +38,69 @@ Bin.insertMany(bins, function (err, docs) {
 */
 
 router.get("/", function(req, res, next) {
-    Bin.find({}, 'name', function(err, users){
-        if(err){
+    Bin.find({}, 'name', function (err, users) {
+        if (err) {
             console.log(err);
-        } else{
+        }
+        else {
             console.log('retrieved list of names', users);
             res.send(users);
         }
     });
+});
+
+router.post("/add", function(req, res, next) {
+    console.log(req.body);
+    const obj = req.body;
+    Bin.create(obj, function (err, docs) {
+        if (err){
+            return console.error(err);
+        } else {
+            console.log("One document inserted to Collection");
+        }
+    });
+    res.send("Poubelle "+ obj.name +" ajouté");
+});
+
+router.post("/delete", function(req, res, next) {
+    console.log(req.body);
+    const obj = req.body;
+    Bin.deleteOne(obj, function (err, docs) {
+        if (err){
+            return console.error(err);
+        } else {
+            console.log("One documents deleted from Collection");
+        }
+    });
+    res.send("Poubelle "+ obj.name +" supprimé");
+});
+
+router.post("/lock", function(req, res, next) {
+    console.log(req.body);
+    const obj = req.body;
+    Bin.updateOne(obj, {lock: true}, function (err, docs) {
+        if (err){
+            return console.error(err);
+        } else {
+            console.log("One documents updated from Collection");
+        }
+    });
+    res.send("Poubelle "+ obj.name +" locked");
+});
+
+router.post("/unlock", function(req, res, next) {
+    console.log(req.body);
+    const obj = req.body;
+    Bin.updateOne(obj, {lock: false}, function (err, docs) {
+        if (err){
+            return console.error(err);
+        } else {
+
+            console.log("One documents updated from Collection");
+        }
+    });
+
+    res.send("Poubelle "+ obj.name + " unlocked");
 });
 
 module.exports = router;
