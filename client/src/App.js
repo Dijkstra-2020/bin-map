@@ -14,7 +14,6 @@ class App extends Component {
         dbResponse: "",
         options: [],
         pos: {lat: 48.812130, lng: 2.356810},
-        poubelles: [],
         value: undefined };
   }
   callAPI() {
@@ -73,6 +72,16 @@ class App extends Component {
     this.callDB();
   }
 
+  addInfo() {
+      if (this.state.value) {
+          return (<Marker
+              title={'Current Location'}
+              position={this.state.pos}
+          >
+          </Marker>)
+      }
+  }
+
     render() {
       return (
       <div className="App">
@@ -85,6 +94,7 @@ class App extends Component {
             initialCenter={this.state.pos}
             center={this.state.pos}
         >
+            {this.addInfo()}
         </Map>
           </div>
           <p className="App-intro">{this.state.apiResponse}</p>
