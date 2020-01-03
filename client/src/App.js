@@ -42,10 +42,10 @@ class App extends Component {
           <div className="Map">
 	    <Map
             google={this.props.google}
-            zoom={10}
+            zoom={12}
             initialCenter={{
-                lat: 35.5496939,
-                lng: -120.7060049
+                lat: 48.812130,
+                lng: 2.356810
             }}
         />
           </div>
