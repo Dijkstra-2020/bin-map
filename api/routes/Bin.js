@@ -37,14 +37,25 @@ Bin.insertMany(bins, function (err, docs) {
 */
 
 router.get("/", function(req, res, next) {
-    Bin.find({}, 'name', function(err, users){
-        if(err){
+    Bin.find({}, 'name', function (err, users) {
+        if (err) {
             console.log(err);
-        } else{
+        }
+        else {
             console.log('retrieved list of names', users);
             res.send(users);
         }
     });
+});
+
+router.post("/add", function(req, res, next) {
+    console.log(req.body);
+    res.send("Poubelle ajouté");
+});
+
+router.post("/delete", function(req, res, next) {
+    console.log(req.body);
+    res.send("Poubelle supprimé");
 });
 
 module.exports = router;
