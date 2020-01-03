@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
+
 // Variable to be sent to Frontend with Database status
 let databaseConnection = "Waiting for Database response...";
 mongoose.connect("mongodb://mongodb:27017/bin");
@@ -38,13 +39,24 @@ Bin.insertMany(bins, function (err, docs) {
 */
 
 router.get("/", function(req, res, next) {
-    Bin.find({}, null, function (err, users) {
+    Bin.find({}, null, function (err, bin) {
         if (err) {
             console.log(err);
         }
         else {
-            console.log('retrieved list of names', users);
-            res.send(users);
+            console.log('retrieved list of names', bin);
+            res.send(bin);
+        }
+    });
+});
+
+router.post("/position", function(req, res, next) {
+    Bin.findOne(req.body, 'lnt lat', function (err, position) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('retrieved list of names', position);
+            res.send(position);
         }
     });
 });
@@ -52,55 +64,83 @@ router.get("/", function(req, res, next) {
 router.post("/add", function(req, res, next) {
     console.log(req.body);
     const obj = req.body;
-    Bin.create(obj, function (err, docs) {
-        if (err){
-            return console.error(err);
-        } else {
-            console.log("One document inserted to Collection");
+    Bin.find({name : obj.name}, function (err, docs) {
+        if (docs.length) {
+            res.send("Poubelle " + obj.name + " existe déjà");
+        }
+        else {
+            Bin.create(obj, function (err, docs) {
+                if (err) {
+                    return console.error(err);
+                } else {
+                    console.log("One document inserted to Collection");
+                }
+            });
+            res.send("Poubelle " + obj.name + " ajouté");
         }
     });
-    res.send("Poubelle "+ obj.name +" ajouté");
 });
 
 router.post("/delete", function(req, res, next) {
     console.log(req.body);
     const obj = req.body;
-    Bin.deleteOne(obj, function (err, docs) {
-        if (err){
-            return console.error(err);
-        } else {
-            console.log("One documents deleted from Collection");
+    Bin.find({name : obj.name}, function (err, docs) {
+        if (docs.length) {
+            Bin.deleteOne(obj, function (err, docs) {
+                if (err){
+                    return console.error(err);
+                } else {
+                    console.log("One documents deleted from Collection");
+                }
+            });
+            res.send("Poubelle "+ obj.name +" supprimé");
+        }
+        else {
+            res.send("Poubelle " + obj.name + " n'existe pas");
         }
     });
-    res.send("Poubelle "+ obj.name +" supprimé");
 });
 
 router.post("/lock", function(req, res, next) {
     console.log(req.body);
     const obj = req.body;
-    Bin.updateOne(obj, {lock: true}, function (err, docs) {
-        if (err){
-            return console.error(err);
-        } else {
-            console.log("One documents updated from Collection");
+    Bin.find({name : obj.name}, function (err, docs) {
+        if (docs.length) {
+            Bin.updateOne(obj, {lock: true}, function (err, docs) {
+                if (err) {
+                    return console.error(err);
+                } else {
+                    console.log("One documents updated from Collection");
+                }
+            });
+            res.send("Poubelle "+ obj.name +" locked");
+        }
+        else {
+            res.send("Poubelle " + obj.name + " n'existe pas");
         }
     });
-    res.send("Poubelle "+ obj.name +" locked");
 });
 
 router.post("/unlock", function(req, res, next) {
     console.log(req.body);
     const obj = req.body;
-    Bin.updateOne(obj, {lock: false}, function (err, docs) {
-        if (err){
-            return console.error(err);
-        } else {
-
-            console.log("One documents updated from Collection");
+    Bin.find({name : obj.name}, function (err, docs) {
+        if (docs.length) {
+            Bin.updateOne(obj, {lock: false}, function (err, docs) {
+                if (err) {
+                    return console.error(err);
+                } else {
+                    console.log("One documents updated from Collection");
+                }
+            });
+            res.send("Poubelle "+ obj.name +" unlocked");
         }
-    });
-
-    res.send("Poubelle "+ obj.name + " unlocked");
+        else {
+            res.send("Poubelle " + obj.name + " n'existe pas");
+        }
+    })
 });
+
+
 
 module.exports = router;
