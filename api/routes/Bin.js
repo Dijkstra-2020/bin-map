@@ -50,11 +50,27 @@ router.get("/", function(req, res, next) {
 
 router.post("/add", function(req, res, next) {
     console.log(req.body);
+    const obj = req.body;
+    Bin.create(obj, function (err, docs) {
+        if (err){
+            return console.error(err);
+        } else {
+            console.log("One document inserted to Collection");
+        }
+    });
     res.send("Poubelle ajouté");
 });
 
 router.post("/delete", function(req, res, next) {
     console.log(req.body);
+    const obj = req.body;
+    Bin.deleteOne(obj, function (err, docs) {
+        if (err){
+            return console.error(err);
+        } else {
+            console.log("One documents deleted from Collection");
+        }
+    });
     res.send("Poubelle supprimé");
 });
 
