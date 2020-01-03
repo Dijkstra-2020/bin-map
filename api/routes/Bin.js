@@ -17,7 +17,8 @@ db.once("open", () => {
 var BinSchema = mongoose.Schema({
     name: String,
     lat: Number,
-    lnt: Number
+    lnt: Number,
+    lock: Boolean
 });
 
 // compile schema to model
@@ -58,7 +59,7 @@ router.post("/add", function(req, res, next) {
             console.log("One document inserted to Collection");
         }
     });
-    res.send("Poubelle ajouté");
+    res.send("Poubelle "+ obj.name +" ajouté");
 });
 
 router.post("/delete", function(req, res, next) {
@@ -71,7 +72,35 @@ router.post("/delete", function(req, res, next) {
             console.log("One documents deleted from Collection");
         }
     });
-    res.send("Poubelle supprimé");
+    res.send("Poubelle "+ obj.name +" supprimé");
+});
+
+router.post("/lock", function(req, res, next) {
+    console.log(req.body);
+    const obj = req.body;
+    Bin.updateOne(obj, {lock: true}, function (err, docs) {
+        if (err){
+            return console.error(err);
+        } else {
+            console.log("One documents updated from Collection");
+        }
+    });
+    res.send("Poubelle "+ obj.name +" locked");
+});
+
+router.post("/unlock", function(req, res, next) {
+    console.log(req.body);
+    const obj = req.body;
+    Bin.updateOne(obj, {lock: false}, function (err, docs) {
+        if (err){
+            return console.error(err);
+        } else {
+
+            console.log("One documents updated from Collection");
+        }
+    });
+
+    res.send("Poubelle "+ obj.name + " unlocked");
 });
 
 module.exports = router;
