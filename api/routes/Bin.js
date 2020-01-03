@@ -18,25 +18,12 @@ db.once("open", () => {
 var BinSchema = mongoose.Schema({
     name: String,
     lat: Number,
-    lnt: Number,
+    lng: Number,
     lock: {type : Boolean, default: false}
 });
 
 // compile schema to model
 var Bin = db.model('Bin', BinSchema, 'binlist');
-/*
-// documents array
-var bins = [{ name: 'Bin1', lat: 10, lnt: 25 },
-    { name: 'Bin2', lat: 10, lnt: 20 },
-    { name: 'Bin3', lat: 10, lnt: 23 }];
-Bin.insertMany(bins, function (err, docs) {
-    if (err){
-        return console.error(err);
-    } else {
-        console.log("Multiple documents inserted to Collection");
-    }
-});
-*/
 
 router.get("/", function(req, res, next) {
     Bin.find({}, null, function (err, bin) {
@@ -51,11 +38,11 @@ router.get("/", function(req, res, next) {
 });
 
 router.post("/position", function(req, res, next) {
-    Bin.findOne(req.body, 'lnt lat', function (err, position) {
+    Bin.findOne(req.body, { '_id': 0,'lng': 1, 'lat' : 1}, function (err, position) {
         if (err) {
             console.log(err);
         } else {
-            console.log('retrieved list of names', position);
+            console.log('retrieved position', position);
             res.send(position);
         }
     });
@@ -140,7 +127,5 @@ router.post("/unlock", function(req, res, next) {
         }
     })
 });
-
-
 
 module.exports = router;
