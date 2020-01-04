@@ -19,7 +19,8 @@ var BinSchema = mongoose.Schema({
     name: String,
     lat: Number,
     lng: Number,
-    lock: {type : Boolean, default: false}
+    lock: {type : Boolean, default: false},
+    full: {type: Number, default: 0}
 });
 
 // compile schema to model
@@ -73,7 +74,7 @@ router.post("/delete", function(req, res, next) {
     const obj = req.body;
     Bin.find({name : obj.name}, function (err, docs) {
         if (docs.length) {
-            Bin.deleteOne(obj, function (err, docs) {
+            Bin.deleteOne({name : obj.name}, function (err, docs) {
                 if (err){
                     return console.error(err);
                 } else {
@@ -93,7 +94,7 @@ router.post("/lock", function(req, res, next) {
     const obj = req.body;
     Bin.find({name : obj.name}, function (err, docs) {
         if (docs.length) {
-            Bin.updateOne(obj, {lock: true}, function (err, docs) {
+            Bin.updateOne({name : obj.name}, {lock: true}, function (err, docs) {
                 if (err) {
                     return console.error(err);
                 } else {
@@ -113,7 +114,7 @@ router.post("/unlock", function(req, res, next) {
     const obj = req.body;
     Bin.find({name : obj.name}, function (err, docs) {
         if (docs.length) {
-            Bin.updateOne(obj, {lock: false}, function (err, docs) {
+            Bin.updateOne({name : obj.name}, {lock: false}, function (err, docs) {
                 if (err) {
                     return console.error(err);
                 } else {
@@ -121,6 +122,47 @@ router.post("/unlock", function(req, res, next) {
                 }
             });
             res.send("Poubelle "+ obj.name +" unlocked");
+        }
+        else {
+            res.send("Poubelle " + obj.name + " n'existe pas");
+        }
+    })
+});
+
+
+router.post("/clear", function(req, res, next) {
+    console.log(req.body);
+    const obj = req.body;
+    Bin.find({name : obj.name}, function (err, docs) {
+        if (docs.length) {
+            Bin.updateOne({name : obj.name}, {full: 0}, function (err, docs) {
+                if (err) {
+                    return console.error(err);
+                } else {
+                    console.log("One documents updated from Collection");
+                }
+            });
+            res.send("Poubelle "+ obj.name +" cleared");
+        }
+        else {
+            res.send("Poubelle " + obj.name + " n'existe pas");
+        }
+    })
+});
+
+router.post("/load", async function(req, res, next) {
+    console.log(req.body);
+    const obj = req.body;
+    await Bin.find({name : obj.name}, function (err, docs) {
+        if (docs.length) {
+            Bin.updateOne({name : obj.name}, {full: obj.full}, async function (err, docs) {
+                if (err) {
+                    return console.error(err);
+                } else {
+                    await console.log("One documents updated from Collection");
+                }
+            });
+            res.send("Poubelle "+ obj.name +" loaded");
         }
         else {
             res.send("Poubelle " + obj.name + " n'existe pas");
