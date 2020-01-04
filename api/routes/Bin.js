@@ -26,6 +26,11 @@ var BinSchema = mongoose.Schema({
 // compile schema to model
 var Bin = db.model('Bin', BinSchema, 'binlist');
 
+/**
+ * GET list of poubelles
+ * route = 'ip:port/bin/'
+ * no param
+ */
 router.get("/", function(req, res, next) {
     Bin.find({}, null, function (err, bin) {
         if (err) {
@@ -38,6 +43,11 @@ router.get("/", function(req, res, next) {
     });
 });
 
+/**
+ * POST get position of a poubelle
+ * route = 'ip:port/bin/position'
+ * param = {_id : poubelle_id_value}
+ */
 router.post("/position", function(req, res, next) {
     Bin.findOne(req.body, { '_id': 0,'lng': 1, 'lat' : 1}, function (err, position) {
         if (err) {
@@ -49,6 +59,18 @@ router.post("/position", function(req, res, next) {
     });
 });
 
+/**
+ * POST add a poubelle in database
+ * route = 'ip:port/bin/add'
+ * param =
+ * {
+        name: String,
+        lat: Number,
+        lng: Number,
+        lock: {type : Boolean, default: false},
+        full: {type: Number, default: 0}
+    }
+ */
 router.post("/add", function(req, res, next) {
     console.log(req.body);
     const obj = req.body;
@@ -69,6 +91,14 @@ router.post("/add", function(req, res, next) {
     });
 });
 
+/**
+ * POST delete a poubelle in database
+ * route = 'ip:port/bin/delete'
+ * param =
+ * {
+        name: String
+   }
+ */
 router.post("/delete", function(req, res, next) {
     console.log(req.body);
     const obj = req.body;
@@ -89,6 +119,14 @@ router.post("/delete", function(req, res, next) {
     });
 });
 
+/**
+ * POST lock a poubelle in database
+ * route = 'ip:port/bin/lock'
+ * param =
+ * {
+        name: String
+   }
+ */
 router.post("/lock", function(req, res, next) {
     console.log(req.body);
     const obj = req.body;
@@ -109,6 +147,14 @@ router.post("/lock", function(req, res, next) {
     });
 });
 
+/**
+ * POST unlock a poubelle in database
+ * route = 'ip:port/bin/unlock'
+ * param =
+ * {
+        name: String
+   }
+ */
 router.post("/unlock", function(req, res, next) {
     console.log(req.body);
     const obj = req.body;
@@ -129,7 +175,14 @@ router.post("/unlock", function(req, res, next) {
     })
 });
 
-
+/**
+ * POST Clear a poubelle in database
+ * route = 'ip:port/bin/clear'
+ * param =
+ * {
+        name: String
+   }
+ */
 router.post("/clear", function(req, res, next) {
     console.log(req.body);
     const obj = req.body;
@@ -150,6 +203,15 @@ router.post("/clear", function(req, res, next) {
     })
 });
 
+/**
+ * POST load a poubelle in database
+ * route = 'ip:port/bin/load'
+ * param =
+ * {
+        name: String,
+        full: Number
+   }
+ */
 router.post("/load", async function(req, res, next) {
     console.log(req.body);
     const obj = req.body;
