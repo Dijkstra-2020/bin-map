@@ -21,7 +21,7 @@ var BinSchema = mongoose.Schema({
     lat: Number,
     lng: Number,
     lock: {type : Boolean, default: false},
-    full: {type: Number, default: 0},
+    full: {type: Boolean, default: false},
     active: {type : Boolean, default: true}
 });
 
@@ -68,9 +68,7 @@ router.post("/position", function(req, res, next) {
  * {
         name: String,
         lat: Number,
-        lng: Number,
-        lock: {type : Boolean, default: false},
-        full: {type: Number, default: 0}
+        lng: Number
     }
  */
 router.post("/add", function(req, res, next) {
@@ -190,7 +188,7 @@ router.post("/clear", function(req, res, next) {
     const obj = req.body;
     Bin.find({name : obj.name}, function (err, docs) {
         if (docs.length) {
-            Bin.updateOne({name : obj.name}, {full: 0}, function (err, docs) {
+            Bin.updateOne({name : obj.name}, {full: false}, function (err, docs) {
                 if (err) {
                     return console.error(err);
                 } else {
@@ -210,8 +208,7 @@ router.post("/clear", function(req, res, next) {
  * route = 'ip:port/bin/load'
  * param =
  * {
-        name: String,
-        full: Number
+        name: String
    }
  */
 router.post("/load", async function(req, res, next) {
@@ -219,14 +216,14 @@ router.post("/load", async function(req, res, next) {
     const obj = req.body;
     await Bin.find({name : obj.name}, function (err, docs) {
         if (docs.length) {
-            Bin.updateOne({name : obj.name}, {full: obj.full}, async function (err, docs) {
+            Bin.updateOne({name : obj.name}, {full: true}, async function (err, docs) {
                 if (err) {
                     return console.error(err);
                 } else {
                     await console.log("One documents updated from Collection");
                 }
             });
-            res.send("Poubelle "+ obj.name +" loaded");
+            res.send("Poubelle "+ obj.name +" is full");
         }
         else {
             res.send("Poubelle " + obj.name + " n'existe pas");
