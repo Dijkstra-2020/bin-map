@@ -15,12 +15,14 @@ db.on("error", error => {
 db.once("open", () => {
     console.log("Connected to Database!");
 });
+
 var BinSchema = mongoose.Schema({
     name: String,
     lat: Number,
     lng: Number,
     lock: {type : Boolean, default: false},
-    full: {type: Number, default: 0}
+    full: {type: Number, default: 0},
+    active: {type : Boolean, default: true}
 });
 
 // compile schema to model
@@ -232,4 +234,59 @@ router.post("/load", async function(req, res, next) {
     })
 });
 
+/**
+ * POST Set a poubelle to inactive and lock it in database
+ * route = 'ip:port/bin/inactivate'
+ * param =
+ * {
+        name: String
+   }
+ */
+router.post("/inactivate", function(req, res, next) {
+    console.log(req.body);
+    const obj = req.body;
+    Bin.find({name : obj.name}, function (err, docs) {
+        if (docs.length) {
+            Bin.updateOne({name : obj.name}, {active: false, lock: true}, function (err, docs) {
+                if (err) {
+                    return console.error(err);
+                } else {
+                    console.log("One documents updated from Collection");
+                }
+            });
+            res.send("Poubelle "+ obj.name +" inactive and locked");
+        }
+        else {
+            res.send("Poubelle " + obj.name + " n'existe pas");
+        }
+    });
+});
+
+/**
+ * POST Set a poubelle to active in database
+ * route = 'ip:port/bin/inactivate'
+ * param =
+ * {
+        name: String
+   }
+ */
+router.post("/activate", function(req, res, next) {
+    console.log(req.body);
+    const obj = req.body;
+    Bin.find({name : obj.name}, function (err, docs) {
+        if (docs.length) {
+            Bin.updateOne({name : obj.name}, {active: true}, function (err, docs) {
+                if (err) {
+                    return console.error(err);
+                } else {
+                    console.log("One documents updated from Collection");
+                }
+            });
+            res.send("Poubelle "+ obj.name +" active");
+        }
+        else {
+            res.send("Poubelle " + obj.name + " n'existe pas");
+        }
+    });
+});
 module.exports = router;
