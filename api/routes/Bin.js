@@ -74,7 +74,7 @@ router.post("/delete", function(req, res, next) {
     const obj = req.body;
     Bin.find({name : obj.name}, function (err, docs) {
         if (docs.length) {
-            Bin.deleteOne(obj, function (err, docs) {
+            Bin.deleteOne({name : obj.name}, function (err, docs) {
                 if (err){
                     return console.error(err);
                 } else {
