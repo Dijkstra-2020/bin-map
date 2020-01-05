@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
-
+import SelectSearch from 'react-select-search'
 const url = "http://" + window.location.hostname;
 
 
@@ -70,16 +70,19 @@ class BinMap extends Component {
 
   render() {
     return (
-      <div className="Map">
-        <Map
-          google={this.props.google}
-          zoom={12}
-          initialCenter={this.state.pos}
-          center={this.state.pos}
-        >
-          {this.addInfo()}
-        </Map>
-      </div>
+        <div>
+          <SelectSearch options={this.state.options} value={this.state.value} name="bin" placeholder="Selectionner une poubelle" onChange={this.handleChange} />
+          <div className="Map">
+            <Map
+              google={this.props.google}
+              zoom={12}
+              initialCenter={this.state.pos}
+              center={this.state.pos}
+            >
+              {this.addInfo()}
+            </Map>
+          </div>
+        </div>
   );
   }
 }
