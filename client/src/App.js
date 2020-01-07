@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import SelectSearch from 'react-select-search'
-import SimpleBottomNavigation from './components/menu/menu'
-import BinMap from './components/map/map'
-import Settings from './components/parametres/parametres'
-import Employees from './components/employees/employees'
+import BinMap from './routes/binmap'
+import TabMenu from './components/menu/menu'
 
 
 const url = "http://" + window.location.hostname;
@@ -43,23 +40,12 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <h1>BinMap</h1>
-                <SelectSearch options={this.state.options} value={this.state.value} name="bin" placeholder="Selectionner une poubelle" onChange={this.handleChange} />
-                
-                <p className="App-intro">{this.state.apiResponse}</p>
-                <p className="App-intro">{this.state.dbResponse}</p>
-
-                <BinMap></BinMap>
-
-                <Settings></Settings>
-
-                <SimpleBottomNavigation>
-                </SimpleBottomNavigation>
-
+                <BinMap/>
+                <TabMenu/>
             </div>
         );
     }
 }
 
 
-export default App;
+export default App
