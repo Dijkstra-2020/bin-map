@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import SelectSearch from 'react-select-search'
 
-import Menu from '../components/menu/menu'
 
 const url = "http://" + window.location.hostname;
 
