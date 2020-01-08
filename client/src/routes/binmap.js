@@ -64,15 +64,17 @@ class BinMap extends Component {
 
   addInfo() {
       return this.state.bin.length > 0 ? (
-          this.state.bin.map(item => <Marker
-        name={item.name}
-        position={{lat: item.lat, lng: item.lng}}
-        icon={{
-          url: require("../trash.png"),
-          scaledSize: new this.props.google.maps.Size(16,16)
-        }}
-      >
-      </Marker>)
+          this.state.bin.map(item => 
+            <Marker
+              name={item.name}
+              position={{lat: item.lat, lng: item.lng}}
+              icon={{
+url: require(item.lock == false ? ('../trash.png') : ('../trash-lock.png')),
+                scaledSize: new this.props.google.maps.Size(16,16)
+            }}
+            >
+            </Marker>
+        )
       ) : (<div></div>);
     }
 
