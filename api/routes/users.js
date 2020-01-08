@@ -47,28 +47,36 @@ router.get('/', function(req, res, next) {
 router.post('/login', function(req, res, next) {
 	console.log(req.body);
 	const obj = req.body;
-	const user = User.findOne({ email: obj.email });
-	if (user && (user.password === obj.password)) {
-	    res.send(user);
-	}
-	else {
-		res.status(401).send();
-	}
+	User.findOne({ email: obj.email }, function(err, result) {
+   		if (result && (result.password === obj.password)) {
+	   	 res.send(result);
+		}
+		else {
+			res.status(401).send();
+		}	
+    
+ 	});
 });
 
 router.post('/signin', function(req, res, next) {
     const obj = req.body;
     console.log(obj);
-
-	const user = User.create(obj, function (err, docs) {
+    User.find({name : obj.email}, function (err, docs) {
+        if (docs.length) {
+            res.send("User " + obj.email + " existe déjà");
+            res.status(401).send();
+        }
+        else {
+            const user =  User.create(obj, function (err, docs) {
                 if (err) {
                     res.status(401).send();
                 } else {
                     console.log("One document inserted to Collection");
-                    
                 }
+            });
+            res.send(user);
+        }
     });
-    res.send(user);
 });
 
 module.exports = router;

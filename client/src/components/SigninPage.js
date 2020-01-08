@@ -43,8 +43,8 @@ class SigninPage extends React.Component {
             return;
         }
         userService.signin(user).then(
-                submit => {
-                    const { from } = this.props.location.state || { from: { pathname: "/login" } };
+                user => {
+                    const { from } = this.props.location.state || { from: { pathname: "/" } };
                     this.props.history.push(from);
                 },
                 error => this.setState({ error, loading: false })
