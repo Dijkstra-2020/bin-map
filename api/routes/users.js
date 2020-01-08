@@ -61,7 +61,7 @@ router.post('/login', function(req, res, next) {
 router.post('/signin', function(req, res, next) {
     const obj = req.body;
     console.log(obj);
-    User.find({name : obj.email}, function (err, docs) {
+    User.find({email : obj.email}, function (err, docs) {
         if (docs.length) {
             res.send("User " + obj.email + " existe déjà");
             res.status(401).send();
