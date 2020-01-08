@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import BinMap from './routes/binmap'
 import TabMenu from './components/menu/menu'
-import BinMap from './components/map/map'
 
 
 const url = "http://" + window.location.hostname;

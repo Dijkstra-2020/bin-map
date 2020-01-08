@@ -16,6 +16,7 @@ class BinMap extends Component {
       options: [],
       pos: { lat: 48.812130, lng: 2.356810 },
       value: undefined,
+      bin: []
     };
   }
 
@@ -46,6 +47,7 @@ class BinMap extends Component {
     fetch(url + ":9000/bin")
       .then(results => { return results.json() })
       .then(datas => {
+        this.setState({bin : datas});
         datas = datas.map((bin) => {
           return { name: bin['name'], value: bin['_id'] }
         });
@@ -61,14 +63,18 @@ class BinMap extends Component {
 
 
   addInfo() {
-    if (this.state.value) {
-      return (<Marker
-        title={'Current Location'}
-        position={this.state.pos}
+      return this.state.bin.length > 0 ? (
+          this.state.bin.map(item => <Marker
+        name={item.name}
+        position={{lat: item.lat, lng: item.lng}}
+        icon={{
+          url: require("../trash.png"),
+          scaledSize: new this.props.google.maps.Size(16,16)
+        }}
       >
       </Marker>)
+      ) : (<div></div>);
     }
-  }
 
 
 
