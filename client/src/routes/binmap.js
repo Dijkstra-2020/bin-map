@@ -15,7 +15,7 @@ class BinMap extends Component {
         dbResponse: "",
         options: [],
         pos: { lat: 48.812130, lng: 2.356810 },
-        current: { lat: 0, lng: 0},
+        current: null,
         value: undefined,
         bin: [],
         activeMarker: null,
@@ -76,7 +76,7 @@ class BinMap extends Component {
   }
 
   currentMarker() {
-      if (navigator.geolocation)
+      if (this.state.current != null)
         return (
             <Marker
                 name={"Ta position"}
