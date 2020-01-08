@@ -3,8 +3,8 @@ import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import SelectSearch from 'react-select-search'
 
 
-//const url = "http://" + window.location.hostname + ":9000";
-const url = "https://" + window.location.hostname + ":8443";
+const url = "http://" + window.location.hostname + ":9000";
+//const url = "https://" + window.location.hostname + ":8443";
 
 class BinMap extends Component {
 

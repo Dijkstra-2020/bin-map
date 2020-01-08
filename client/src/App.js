@@ -4,8 +4,8 @@ import BinMap from './routes/binmap'
 import TabMenu from './components/menu/menu'
 
 
-//const url = "http://" + window.location.hostname + ":9000";
-const url = "https://" + window.location.hostname + ":8443";
+const url = "http://" + window.location.hostname + ":9000";
+//const url = "https://" + window.location.hostname + ":8443";
 
 class App extends Component {
 

@@ -22,6 +22,7 @@ services:
       context: ./api
     ports:
       - "9000:9000"
+      - "8443:8443"
     volumes:
       - ./api:/api
       - /api/node_modules
