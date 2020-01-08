@@ -4,7 +4,8 @@ import BinMap from './routes/binmap'
 import TabMenu from './components/menu/menu'
 
 
-const url = "http://" + window.location.hostname;
+//const url = "http://" + window.location.hostname + ":9000";
+const url = "https://" + window.location.hostname + ":8443";
 
 class App extends Component {
 
@@ -16,13 +17,13 @@ class App extends Component {
         };
     }
     callAPI() {
-        fetch(url + ":9000/testAPI")
+        fetch(url + "/testAPI")
             .then(res => res.text())
             .then(res => this.setState({ apiResponse: res }));
     }
 
     callDB() {
-        fetch(url + ":9000/testDB")
+        fetch(url + "/testDB")
             .then(res => res.text())
             .then(res => this.setState({ dbResponse: res }))
             .catch(err => err);

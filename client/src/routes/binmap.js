@@ -3,8 +3,8 @@ import { Map, GoogleApiWrapper, InfoWindow, Marker } from 'google-maps-react';
 import SelectSearch from 'react-select-search'
 
 
-const url = "http://" + window.location.hostname;
-
+//const url = "http://" + window.location.hostname + ":9000";
+const url = "https://" + window.location.hostname + ":8443";
 
 class BinMap extends Component {
 
@@ -25,7 +25,7 @@ class BinMap extends Component {
   }
 
   async getPosition(id) {
-    const response = await fetch(url + ":9000/bin/position", {
+    const response = await fetch(url + "/bin/position", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(id),
@@ -58,7 +58,7 @@ class BinMap extends Component {
               this.setState({pos: pos});
           });
       }
-    fetch(url + ":9000/bin")
+    fetch(url + "/bin")
       .then(results => { return results.json() })
       .then(datas => {
         this.setState({bin : datas});
