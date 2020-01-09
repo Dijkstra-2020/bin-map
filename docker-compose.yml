@@ -8,6 +8,8 @@ services:
       context: ./client
     ports:
       - "80:80"
+      - "443:443"
+      - "3000:3000"
     volumes:
       - ./client:/client
       - /client/node_modules
@@ -20,6 +22,7 @@ services:
       context: ./api
     ports:
       - "9000:9000"
+      - "8443:8443"
     volumes:
       - ./api:/api
       - /api/node_modules
