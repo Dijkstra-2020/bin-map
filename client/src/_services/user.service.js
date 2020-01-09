@@ -14,16 +14,17 @@ function login(email, password) {
         body: JSON.stringify({ email, password })
     };
 
-    const data = fetch("http://" + window.location.hostname +":9000/users/login", requestOptions)
-        .then(handleResponse);
-          if (data) {
-            // store user details and basic auth credentials in local storage 
-            // to keep user logged in between page refreshes
-            data.authdata = window.btoa(data.email + ':' + data.password);
-            localStorage.setItem('user', JSON.stringify(data));
-    }
-
-    return data;
+    return fetch("http://" + window.location.hostname +":9000/users/login", requestOptions)
+        .then(handleResponse).then(user => {
+            // login successful if there's a user in the response
+            if (user) {
+                // store user details and basic auth credentials in local storage 
+                // to keep user logged in between page refreshes
+                user.authdata = window.btoa(email + ':' + password);
+                localStorage.setItem('user', JSON.stringify(user));
+            }
+            return user;
+        });
 }
 
 function logout() {
@@ -38,16 +39,18 @@ function signin(user) {
         body: JSON.stringify(user)
     };
 
-    const data = fetch("http://" + window.location.hostname + ":9000/users/signin", requestOptions)
-        .then(handleResponse);
-    if (data) {
-            // store user details and basic auth credentials in local storage 
-            // to keep user logged in between page refreshes
-            data.authdata = window.btoa(data.email + ':' + data.password);
-            localStorage.setItem('user', JSON.stringify(data));
-    }
+    return fetch("http://" + window.location.hostname + ":9000/users/signin", requestOptions)
+        .then(handleResponse).then(user => {
+            // login successful if there's a user in the response
+            if (user) {
+                // store user details and basic auth credentials in local storage 
+                // to keep user logged in between page refreshes
+                user.authdata = window.btoa(user.email + ':' + user.password);
+                localStorage.setItem('user', JSON.stringify(user));
+            }
 
-    return data;
+            return user;
+        });
 }
 
 function getAll() {
