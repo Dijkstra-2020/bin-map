@@ -5,7 +5,7 @@ import SelectSearch from 'react-select-search'
 
 const url = "http://" + window.location.hostname + ":9000";
 //const url = "https://" + window.location.hostname + ":8443";
-
+const https = false;
 class BinMap extends Component {
 
   constructor(props) {
@@ -76,11 +76,19 @@ class BinMap extends Component {
   }
 
   currentMarker() {
-      if (this.state.current != null)
+      if (this.state.current != null && https)
         return (
             <Marker
                 name={"Ta position"}
                 position={this.state.current}
+                onClick={this.onMarkerClick}
+            />
+            )
+      else
+	return (
+            <Marker
+                name={"Ta position"}
+                position={{ lat: 48.812130, lng: 2.356810 }}
                 onClick={this.onMarkerClick}
             />
             )
