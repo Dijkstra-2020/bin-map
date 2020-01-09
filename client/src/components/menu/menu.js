@@ -8,7 +8,7 @@ import { Link } from '@material-ui/core';
 import BinMap from '../../routes/binmap';
 import App from '../../App';
 import Employees from '../../routes/employees';
-import Settings from '../../routes/settings';
+import User from '../../routes/user';
 import Squads from '../../routes/squads';
 
 
@@ -28,9 +28,7 @@ function displayPage(newValue){
     case 1 : 
       return (<Employees/>)
     case 2 :
-      return (<Squads/>)
-      case 3 :
-        return (<Settings/>)  
+      return (<User/>)  
       default :
       return (<App/>);
   }
@@ -53,18 +51,16 @@ export default function IconLabelTabs() {
           textColor="secondary"
           aria-label="icon label tabs example"
         >
-          <Tab value={0} label="MAP"  to="/binmap" component ={Link}>
+          <Tab value={0} label="MAP"  component ={Link}>
           </Tab>
 
-          <Tab value={1} label="EMPLOYES" to="/employees" component ={Link}>
+          <Tab value={1} label="EMPLOYES" component ={Link}>
           </Tab>
 
-          <Tab value={2} label="EQUIPES" to="/squads"  component ={Link}>
-          </Tab>
-
-          <Tab value={3} label="PARAMETRES" to="/settings"  component ={Link}>
+          <Tab value={2} label="UTILISATEUR"  component ={Link}>
           </Tab>
         </Tabs>
+	{displayPage(value)}
       </Paper>
 
   );

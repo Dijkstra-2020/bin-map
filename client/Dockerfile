@@ -11,6 +11,7 @@ RUN npm i --unsafe-perm
 RUN npm install --save google-maps-react
 RUN npm install --save react-router-dom
 RUN npm install react-select-search --save
+RUN npm install react-bootstrap bootstrap --save
 # Copy the current directory contents into the container at /client
 COPY . /client/
 # Make port 3000 available to the world outside this container

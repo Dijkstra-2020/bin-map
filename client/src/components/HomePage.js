@@ -28,7 +28,6 @@ class HomePage extends React.Component {
         return (
           	 
           		<div>
-      				<BinMap/>
                 	<TabMenu/>
 	                <p>
 	                    <Link to="/login">Logout</Link>

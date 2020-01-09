@@ -14,8 +14,7 @@ import {Registry} from "./Utils";
 import BinMap from './routes/binmap'
 import Employees from './routes/employees'
 import Squads from './routes/squads'
-import Settings from './routes/settings'
-
+import User from './routes/user'
 
 
 
