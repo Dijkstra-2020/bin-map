@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { userService } from '../_services/user.service';
+import { Route } from "react-router-dom";
+import BinMap from '../routes/binmap'
+import TabMenu from './menu/menu'
 
 class HomePage extends React.Component {
     constructor(props) {
@@ -25,10 +28,10 @@ class HomePage extends React.Component {
         return (
           	 
           		<div>
-	          
+      				<BinMap/>
+                	<TabMenu/>
 	                <p>
 	                    <Link to="/login">Logout</Link>
-
 	                </p>
                 </div>
           

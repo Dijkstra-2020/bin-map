@@ -30,11 +30,6 @@ ReactDOM.render(
   <Router history={history}>
       <div>
           <Route path="/" exact component={App}/>
-          <Route path="/binmap" exact component={BinMap}/>
-          <Route path="/employees" exact component={Employees}/>
-          <Route path="/squads" exact component={Squads}/>
-          <Route path="/settings" exact component={Settings}/> 
-
       </div>
   </Router>,  document.getElementById('root'));
 

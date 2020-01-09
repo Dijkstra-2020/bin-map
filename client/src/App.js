@@ -43,8 +43,6 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <BinMap/>
-                <TabMenu/>
                 <div className="jumbotron">
                 <div className="container">
                     <div className="col-sm-8 col-sm-offset-2">
